@@ -73,8 +73,8 @@ async def get_current_price(sym):
         return quotes[sym].askPrice
 
 def open_order(sym):
-    password = "Alsinas:2440"
-    username = "verave.javu@gmail.com"
+    password = "dummypassword"
+    username = "dummymail"
     session = ProductionSession(username, password)
 
     account = Account.get_account(session, '5WX64928')

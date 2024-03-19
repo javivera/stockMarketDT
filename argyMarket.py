@@ -4,7 +4,7 @@ from dataRetrieveLib import *
 from tastyAPI import get_current_price
 
 ticker_list = ['YPF','EDN','BBAR','MELI','LOMA','GGAL','BMA','CAAP','CEPU','CRESY','DESP','GLOB','IRS','PAM','SUPV','TEO','TGS','TS','TX']
-# ticker_list = ['YPF','EDN']
+ticker_list = ['ETH-USD','SOL-USD','BTC-USD','BNB-USD','XRP-USD','DOGE-USD','ADA-USD']
 
 
 df_list = []
@@ -18,9 +18,10 @@ def pct_change(df):
 for j in ticker_list:
     # df_list.append(np.log(data_retrieve_yahoo(ticker=j,interval="1d").Close).diff())
     # df_list.append(data_retrieve_yahoo(ticker=j,interval="1d"))
-    price = await get_current_price(j)
+    # price = await get_current_price(j)
 
     df = data_retrieve_yahoo(ticker=j,interval="1d")
+    print(df)
     # df.loc[-1,'Close'] = price
     df_list.append(pct_change(df))
 
@@ -66,7 +67,7 @@ for j in pairs_df:
 
         print(pairs[counter])
         # if df_diff['strat_test'][-1] > 0 or df_diff['strat_test2'][-1] > 0:
-        if df_diff['strat_test'][-1] > 0:
+        if True or df_diff['strat_test'][-1] > 0:
         # plt.plot(df.index,df)
         # plt.plot(df.index,df.rolling(5).mean())
         # plt.title(pairs[counter])
@@ -74,17 +75,17 @@ for j in pairs_df:
             fig1 = go.Figure(data=go.Scatter(x=df_diff.index, y=df_diff['pct_change'], mode='lines', name='Change'))
         # fig2 = go.Figure(data=go.Scatter(x=df.index, y=df['pct_sum'], mode='lines', name='Sum'))
             fig3 = go.Figure(data=go.Scatter(x=df_diff.index, y=df_diff['strat_test'], mode='lines', name='Strat'))
-            # fig5 = go.Figure(data=go.Scatter(x=df_diff.index, y=df_diff['strat_test2'], mode='lines', name='Strat2'))
+            fig5 = go.Figure(data=go.Scatter(x=df_diff.index, y=df_diff['strat_test2'], mode='lines', name='Strat2'))
 
 
-            fig = sp.make_subplots(rows=4, cols=1, shared_xaxes=False, shared_yaxes=False, vertical_spacing=0.05)
+            fig = sp.make_subplots(rows=5, cols=1, shared_xaxes=False, shared_yaxes=False, vertical_spacing=0.05)
             for t in fig2.data:
                 fig.add_trace(t, row=3, col=1)
             for t in fig4.data:
                 fig.add_trace(t, row=2, col=1)
             fig.add_trace(fig1.data[0], row=1, col=1)
             fig.add_trace(fig3.data[0], row=4, col=1)
-            # fig.add_trace(fig5.data[0], row=5, col=1)
+            fig.add_trace(fig5.data[0], row=5, col=1)
             # fig.add_trace(fig4.data[0], row=4, col=1)
 
             fig.update_layout(
@@ -95,6 +96,7 @@ for j in pairs_df:
 
 
             fig.write_html(f'graphs/{pairs[counter]}.html')
+            print(f'figure wrote {pairs[counter]}')
         # fig  = go.Figure(data = [go.Histogram(x = df,nbinsx = 15)])
-        # fig.show()
+            fig.show()
     counter += 1
